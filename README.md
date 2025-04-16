@@ -1,4 +1,3 @@
-![Screenshot 2025-04-16 alle 18 07 05](https://github.com/user-attachments/assets/bd19b9f7-05ec-4fa6-a09c-748441329e8b)
 ![Screenshot 2025-04-16 alle 19 22 41](https://github.com/user-attachments/assets/2c008d6d-02fc-43cf-8dcb-1f0275a3d430)
 ![Screenshot 2025-04-16 alle 19 22 54](https://github.com/user-attachments/assets/248fc1fc-84b7-446a-a36b-0339461c7cb6)
 ![Screenshot 2025-04-16 alle 19 23 02](https://github.com/user-attachments/assets/3fe3c021-6865-43c8-90f3-439afe307027)
