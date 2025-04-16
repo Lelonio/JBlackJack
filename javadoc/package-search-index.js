@@ -1,0 +1,1 @@
+packageSearchIndex = [{"l":"All Packages","u":"allpackages-index.html"},{"l":"org.jblackjack"},{"l":"org.jblackjack.controller"},{"l":"org.jblackjack.model"},{"l":"org.jblackjack.view"}];updateSearchResults();

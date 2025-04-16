@@ -1,0 +1,214 @@
+@startuml
+skinparam classAttributeIconSize 0
+class BlackJackView{
+- cardPanel : CardPanel
+frame : JFrame
+boardWidth : int
+boardHeight : int
++ gameOver : JLabel
++ newGameButton : JButton
++ numPlayersButton : JButton
+buttonPanel : JPanel
+- controller : BlackJackController
++ BlackJackView()
++ update(o : Observable, arg : Object) : void
++ startCountdown(timer : Timer) : void
++ updateHands(dealerHand : ArrayList<Card>, players : ArrayList<Player>, playerSums : ArrayList<Integer>, dealerSum : int) : void
++ gameOver() : void
++ setController(controller : BlackJackController) : void
++ getController() : BlackJackController
++ getCardPanel() : CardPanel
++ getFrame() : JFrame
+}
+BlackJackView ..|> Observer
+BlackJackView --|> JPanel
+class Player{
+- name : String
+- hand : ArrayList<Card>
+- amount : int
+- credits : int
+- wins : int
+- losses : int
+- isBusted : boolean
+- isStanding : boolean
+- isFolded : boolean
++ Player(credits : int, name : String)
++ isFolded() : boolean
++ setFolded(folded : boolean) : void
++ getHand() : ArrayList<Card>
++ getCredits() : int
++ getLosses() : int
++ incrementWins() : void
++ incrementLosses() : void
++ getName() : String
++ getWins() : int
++ isBusted() : boolean
++ setBusted(busted : boolean) : void
++ isStanding() : boolean
++ stand() : void
++ winBet() : void
++ loseBet() : void
++ setStanding(b : boolean) : void
++ setAmount() : void
++ decreaseAmount() : void
++ clearAmount() : void
++ getAmount() : int
+}
+class Card{
+- suit : String
+- value : String
++ Card(suit : String, value : String)
++ getImagePath() : String
++ getValue() : String
++ toString() : String
+}
+class SetupDialog{
+- player1NameField : JTextField
+- player2NameField : JTextField
+- numberOfPlayersSpinner : JSpinner
+- betAmountSpinner : JSpinner
+- nameFields : List<JTextField>
+- player2NameLabel : JLabel
++ SetupDialog(parent : Frame)
+- initComponents() : void
+- updatePlayer2Visibility() : void
+- handleOkButtonAction() : void
++ getNumPlayers() : int
++ getBetAmount() : int
++ getPlayerNames() : List<String>
+}
+SetupDialog --|> JDialog
+class BlackJackController{
+- timer : Timer
+- audioManager : AudioManager
+- model : BlackJackModel
+- view : BlackJackView
+- currentPlayer : Player
+- isAnimating : boolean
+dialog : SetupDialog
++ start : boolean
++ BlackJackController(view : BlackJackView, model : BlackJackModel)
++ playerHit(currentPlayerIndex : int) : void
+- processNextPlayer(currentPlayerIndex : int) : void
++ playerStand(index : int) : void
++ newGame() : void
++ startGame() : void
+- updateView() : void
++ betting(currentPlayerIndex : int, b : boolean) : void
+- checkGameStatus() : void
++ changePlayers() : void
++ getGameOver() : boolean
++ setStart(b : boolean) : void
++ getStart() : boolean
++ checkFolded() : void
++ playTic() : void
+}
+class CardPanel{
+- animatePlayerCardWidth : int[]
+- playerSums : ArrayList<Integer>
+- dealerHand : ArrayList<Card>
+- view : BlackJackView
+- dealerSum : int
+- hiddenCard : Card
+- players : ArrayList<Player>
+- hiddenCardTimer : Timer
+- dealerCardTimer : Timer
+- animateDealerX : int
+- betStatus : JLabel
+- timer : Timer
+- playerCardTimer : Timer
+- revealHiddenCard : boolean
+- animatePlayerIndex : int
+- isAnimatingCard : boolean
+- cardWidth : int
+- cardHeight : int
+- betBtnColor : Color[]
+- standBtnColor : Color
+- hitBtnColor : Color
+- playerCardPositions : ArrayList<Point>
+- targetCardPositions : ArrayList<Point>
+- animateHiddenCardWidth : int
+bg : Image
++ CardPanel(dealerHand : ArrayList<Card>, players : ArrayList<Player>, playerSums : ArrayList<Integer>, dealerSum : int, view : BlackJackView)
+- handleMouseClick(e : MouseEvent) : void
+- handleBetButtons(x : int, y : int, playerIndex : int, buttonX : int, buttonY : int) : void
+- handleGameButtons(x : int, y : int, playerIndex : int, buttonX : int, buttonY : int) : void
+- changeBet(playerIndex : int, increase : boolean) : void
++ animateHiddenCard() : void
++ revealHiddenCard() : void
++ startPlayerCardAnimation(playerIndex : int, startPoint : Point, endPoint : Point) : void
+- loadImage(path : String) : Image
++ paintComponent(g : Graphics) : void
+- drawDealerStatus(g : Graphics) : void
+- drawCardStack(g : Graphics) : void
+- drawHiddenCard(g : Graphics) : void
+- drawPlayerInfo(g : Graphics) : void
+- drawPlayerBets(g : Graphics, player : Player, playerIndex : int, yBtn : int, xBtn : int) : void
+- drawBetButtons(g : Graphics, playerIndex : int, yBtn : int, xBtn : int) : void
+- drawActionButtons(g : Graphics, xBtn : int, yBtn : int) : void
+- drawPlayerCards(g : Graphics, player : Player, playerIndex : int, y : int) : void
+- drawDealerCards(g : Graphics) : void
+- drawAnimatingCard(g : Graphics, player : Player, playerIndex : int, cardImg : Image, x : int, y : int) : void
+- drawCard(g : Graphics, player : Player, playerIndex : int, cardImg : Image, x : int, y : int, cardIndex : int) : void
+- rotateCard(g2d : Graphics2D, playerIndex : int, x : int, y : int) : void
+- drawPlayerStatus(g : Graphics, player : Player, playerIndex : int, y : int) : void
+- drawPlayerFoldOrBust(g : Graphics, player : Player, playerIndex : int, y : int) : void
+- drawPlayerStatusText(g2d : Graphics2D, player : Player, status : String, x : int, y : int, yText : int) : void
++ setEmptyBackground() : void
++ setBackground() : void
++ setStatus(status : String) : void
++ setCountdown(timer : Timer) : void
++ setBetStatus(s : String) : void
+}
+CardPanel --|> JPanel
+class AudioManager{
+- {static} instance : AudioManager
+- AudioManager()
++ {static} getInstance() : AudioManager
++ play(soundFileName : String) : void
+}
+class JBlackJack{
++ {static} main(args : String[]) : void
+}
+class CustomObservable{
++ setChanged() : void
+}
+CustomObservable --|> Observable
+class BlackJackModel{
+- deck : ArrayList<Card>
+- dealerHand : ArrayList<Card>
+- players : ArrayList<Player>
+- gameOver : boolean
++ BlackJackModel()
++ initializeDeck() : void
++ setAmount(player : Player) : boolean
++ newGame() : void
++ initializeGame(numPlayers : int, initialCredits : int, names : List<String>) : void
++ playerHits(player : Player) : void
++ dealerHit() : void
++ getHandValue(hand : ArrayList<Card>) : int
++ getPlayers() : ArrayList<Player>
++ getDealerHand() : ArrayList<Card>
++ isGameOver() : boolean
++ getAllPlayerSums() : ArrayList<Integer>
++ playerHasBlackJack(player : Player) : boolean
++ playerIsBusted(player : Player) : boolean
++ dealerIsBusted() : boolean
++ isTie(player : Player) : boolean
++ allPlayersFolded() : boolean
++ playerWins(player : Player) : boolean
++ clearAmount() : void
++ isPlayerBroke() : void
+}
+BlackJackModel --|> CustomObservable
+BlackJackView--"- cardPanel" CardPanel
+BlackJackView--"- controller" BlackJackController
+BlackJackController--"- audioManager" AudioManager
+BlackJackController--"- model" BlackJackModel
+BlackJackController--"- view" BlackJackView
+BlackJackController--"- currentPlayer" Player
+BlackJackController--"dialog" SetupDialog
+CardPanel--"- view" BlackJackView
+CardPanel--"- hiddenCard" Card
+AudioManager--"- {static} instance" AudioManager
+@enduml
