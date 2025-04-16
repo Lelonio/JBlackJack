@@ -38,10 +38,29 @@ public class BlackJackView extends JPanel implements Observer {
         }
     }
 
+    class BackgroundPanel extends JPanel {
+        private Image backgroundImage;
+    
+        public BackgroundPanel(Image backgroundImage) {
+            this.backgroundImage = backgroundImage;
+            this.setLayout(new BorderLayout()); // fondamentale per posizionare altri pannelli
+        }
+    
+        @Override
+        protected void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+        }
+    }
+    
 
     public BlackJackView(){
 
-        frame.getContentPane().setBackground(new Color(0,119,56));
+        ImageIcon icon = new ImageIcon(getClass().getResource("/tableEmpty.png"));
+        Image image = icon.getImage();
+        BackgroundPanel backgroundPanel = new BackgroundPanel(image);
+        frame.setContentPane(backgroundPanel);
+
         gameOver = new JLabel("GAME OVER!"+"\n"+"No credits left!", SwingConstants.CENTER);
         gameOver.setVisible(false);
 
@@ -62,7 +81,7 @@ public class BlackJackView extends JPanel implements Observer {
         buttonPanel.setLayout(new FlowLayout(FlowLayout.CENTER, gap, 0));
         buttonPanel.add(newGameButton);
         buttonPanel.add(numPlayersButton);
-        buttonPanel.setBackground(new Color(0,119,56));
+        buttonPanel.setBackground(new Color(73,43,15));
         frame.add(buttonPanel, BorderLayout.SOUTH);
 
         setVisible(true);
